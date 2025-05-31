@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GPS Location Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("yVcmMw6S0EZH9tj0e"); // Your Public Key
+    })();
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1.2em;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Click the button below to share your GPS location</h2>
+  <button onclick="getLocation()">Share My Location</button>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendEmail, showError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function sendEmail(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const timestamp = new Date().toISOString();
+
+      const templateParams = {
+        latitude: latitude,
+        longitude: longitude,
+        timestamp: timestamp
+      };
+
+      emailjs.send("service_7cw76e1", "template_0mr3qf9", templateParams)
+        .then(() => {
+          alert("✅ GPS location sent successfully!");
+        }, (error) => {
+          alert("❌ Failed to send location: " + JSON.stringify(error));
+        });
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
